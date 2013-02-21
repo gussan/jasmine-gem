@@ -48,8 +48,12 @@ module Jasmine
         # triggers run_load_hooks on action_view which, in turn, causes sprockets/railtie to load the Sprockets asset
         # helpers.  Alternatively, you can include the helpers yourself without loading action_view/base:
         Rails.application.assets.context_class.instance_eval do
-          include ::Sprockets::Helpers::IsolatedHelper
-          include ::Sprockets::Helpers::RailsHelper
+          if Jasmine::Dependencies.rails4?
+            include ::Sprockets::Rails::Helper
+          else
+            include ::Sprockets::Helpers::IsolatedHelper
+            include ::Sprockets::Helpers::RailsHelper
+          end
         end
         Rails.application.assets
       })

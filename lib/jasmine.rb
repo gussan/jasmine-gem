@@ -26,6 +26,4 @@ end
   # require File.join('rack', 'jasmine', file)
 # end
 
-require File.join('jasmine', "railtie") if Jasmine::Dependencies.rails3?
-
-
+require File.join('jasmine', "railtie") if Jasmine::Dependencies.rails3_or_later?

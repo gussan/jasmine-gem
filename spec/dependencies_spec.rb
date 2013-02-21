@@ -102,6 +102,19 @@ if Jasmine::Dependencies.rspec2?
         end
       end
 
+      describe ".rails3_or_later?" do
+        subject { Jasmine::Dependencies.rails3_or_later? }
+        context "when rails 4 is present and running" do
+          before do
+            Gem::Specification.should_receive(:find_by_name).with("rails", ">= 3.0").and_return(true)
+            Rails.stub(:respond_to?).with(:version).and_return(true)
+            Rails.stub(:version).and_return(running_rails_version)
+          end
+          let(:running_rails_version) { "4.0" }
+          it { should be_true }
+        end
+      end
+
       describe ".rails_3_asset_pipeline?" do
         subject { Jasmine::Dependencies.rails_3_asset_pipeline? }
         let(:application) { double(:application) }
